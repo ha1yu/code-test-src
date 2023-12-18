@@ -1,7 +1,5 @@
 package com.test.controller;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.test.bean.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,5 +60,26 @@ public class SqlInjectController {
             }
         }
         return emails.toString();
+    }
+
+    @PostMapping("/mybatisSql")
+    @ResponseBody
+    public String mybatisSql(@RequestParam(name = "username",defaultValue = "")String username){
+
+        return "111";
+    }
+
+    @PostMapping("/mybatisPlusSql")
+    @ResponseBody
+    public String mybatisPlusSql(@RequestParam(name = "username",defaultValue = "")String username){
+
+        return "111";
+    }
+
+    @PostMapping("/tkMapperSql")
+    @ResponseBody
+    public String tkMapperSql(@RequestParam(name = "username",defaultValue = "")String username){
+
+        return "111";
     }
 }
