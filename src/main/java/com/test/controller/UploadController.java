@@ -16,6 +16,12 @@ import java.io.File;
 @RequestMapping("/upload")
 public class UploadController {
 
+    /**
+     * http://127.0.0.1:8080/upload/demo1
+     *
+     * @param multipartFile 上传文件
+     * @return  文件上传状态
+     */
     @PostMapping("/demo1")
     @ResponseBody
     public String demo1(@RequestParam("file") MultipartFile multipartFile) throws Exception {
@@ -43,6 +49,12 @@ public class UploadController {
         return status;
     }
 
+    /**
+     * http://127.0.0.1:8080/upload/demo2
+     *
+     * @param multipartFile 上传文件
+     * @return  文件上传状态
+     */
     @PostMapping("/demo2")
     @ResponseBody
     public String demo2(@RequestParam("file") MultipartFile multipartFile) throws Exception {
