@@ -17,7 +17,7 @@ import java.io.File;
 public class UploadController {
 
     /**
-     * http://127.0.0.1:8080/upload/demo1
+     * 请求地址：http://127.0.0.1:8080/upload/demo1
      *
      * @param multipartFile 上传文件
      * @return  文件上传状态
@@ -50,7 +50,7 @@ public class UploadController {
     }
 
     /**
-     * http://127.0.0.1:8080/upload/demo2
+     * 请求地址：http://127.0.0.1:8080/upload/demo2
      *
      * @param multipartFile 上传文件
      * @return  文件上传状态
