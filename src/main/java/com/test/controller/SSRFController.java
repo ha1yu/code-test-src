@@ -29,6 +29,7 @@ public class SSRFController extends HttpServlet {
 
     @RequestMapping({"/ssrf2"})
     public void ssrf2(String url, HttpServletResponse resp) throws Exception {
+        //http://127.0.0.1:8080/ssrf2?url=http://127.0.0.1:8080/download?filename=../../../../Windows/win.ini%26a=
         url = url + "/file/img/xx.jpg?key=123456";
         URL u = new URL(url);
         HttpURLConnection urlConnection = (HttpURLConnection)u.openConnection();
@@ -42,6 +43,7 @@ public class SSRFController extends HttpServlet {
 
     @RequestMapping({"/ssrf3"})
     public void ssrf3(String path, HttpServletResponse resp) throws Exception {
+        //http://127.0.0.1:8080/ssrf3?path=@baidu.com
         String url = "http://123.11.123.11:56789" + path;
         URL u = new URL(url);
         URLConnection urlConnection = u.openConnection();
