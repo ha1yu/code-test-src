@@ -19,6 +19,7 @@ public class SSRFController extends HttpServlet {
     public void ssrf1(String url, HttpServletResponse resp) throws Exception {
         URL u = new URL(url);
         URLConnection urlConnection = u.openConnection();
+        //获取内容输出前端
         InputStream inputStream = urlConnection.getInputStream();
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes);
@@ -30,8 +31,8 @@ public class SSRFController extends HttpServlet {
     public void ssrf2(String url, HttpServletResponse resp) throws Exception {
         url = url + "/file/img/xx.jpg?key=123456";
         URL u = new URL(url);
-
         HttpURLConnection urlConnection = (HttpURLConnection)u.openConnection();
+        //获取内容输出前端
         InputStream inputStream = urlConnection.getInputStream();
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes);
@@ -43,8 +44,8 @@ public class SSRFController extends HttpServlet {
     public void ssrf3(String path, HttpServletResponse resp) throws Exception {
         String url = "http://123.11.123.11:56789" + path;
         URL u = new URL(url);
-
         URLConnection urlConnection = u.openConnection();
+        //获取内容输出前端
         InputStream inputStream = urlConnection.getInputStream();
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes);
