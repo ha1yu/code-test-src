@@ -41,8 +41,8 @@ public class SSRFController extends HttpServlet {
 
     @RequestMapping({"/ssrf3"})
     public void ssrf3(String path, HttpServletResponse resp) throws Exception {
-        //http://127.0.0.1:8080/ssrf3?path=@baidu.com
-        String url = "http://123.11.123.11:56789" + path;
+        //http://127.0.0.1:8080/ssrf3?path=@127.0.0.1:8080/download?filename=../../../../../../Windows/win.ini
+        String url = "http://123.11.123.11" + path;
         URL u = new URL(url);
         URLConnection urlConnection = u.openConnection();
         //获取内容输出前端
