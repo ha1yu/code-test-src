@@ -24,7 +24,6 @@ public class SSRFController extends HttpServlet {
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes);
         resp.getOutputStream().write(bytes);
-
     }
 
     @RequestMapping({"/ssrf2"})
@@ -38,7 +37,6 @@ public class SSRFController extends HttpServlet {
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes);
         resp.getOutputStream().write(bytes);
-
     }
 
     @RequestMapping({"/ssrf3"})
@@ -52,7 +50,6 @@ public class SSRFController extends HttpServlet {
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes);
         resp.getOutputStream().write(bytes);
-
     }
 
     public boolean checkUrl(URL url) throws MalformedURLException {
