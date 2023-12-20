@@ -100,7 +100,9 @@ public class SqlInjectController {
     @PostMapping("/mybatisPlusSql")
     @ResponseBody
     public SQLVo mybatisPlusSql(@RequestParam(name = "username", defaultValue = "") String username) {
+        //创建条件查询器
         QueryWrapper<Users> userQueryWrapper = new QueryWrapper<>();
+        //添加条件查询
         userQueryWrapper.apply("username='" + username + "'");
         List<Users> users = userMapper.selectList(userQueryWrapper);
 

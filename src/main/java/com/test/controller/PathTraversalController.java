@@ -12,6 +12,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 @RestController
+@RequestMapping("/readfile1")
 public class PathTraversalController extends HttpServlet{
     @RequestMapping("/download")
     public void download(String filename, HttpServletResponse resp) throws Exception {
