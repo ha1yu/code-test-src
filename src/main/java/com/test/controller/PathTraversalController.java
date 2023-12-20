@@ -114,14 +114,7 @@ public class PathTraversalController extends HttpServlet{
         return new String(bytes);
     }
 
-    //文件名校验，存在问题返回false
-    public boolean checkFile(String path) throws Exception {
-        path = path.replaceAll("\\p{C}", "");
-        if(path.contains("..")){
-            return false;
-        }
-        return true;
-    }
+
 }
 
 
