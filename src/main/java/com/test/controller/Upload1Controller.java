@@ -79,7 +79,7 @@ public class Upload1Controller {
         if(file.contains("..")){
             return false;
         }
-
+        //文件后缀白名单校验
         String ext = file.substring(file.lastIndexOf("."),file.length());
         List<String> exts = Arrays.asList(".jpg", ".png", ".jpeg", ".gif");
         return exts.contains(ext);
