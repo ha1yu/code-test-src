@@ -18,6 +18,9 @@ import java.util.List;
 @RequestMapping("/upload1")
 public class Upload1Controller {
 
+
+    private String basePath = "C:/Users/lb/Downloads/";
+
     /**
      * 错误编码实例1
      * <p>
@@ -35,7 +38,6 @@ public class Upload1Controller {
     public String demo1(@RequestParam("file") MultipartFile multipartFile) {
         System.out.println("/*************************************************************/");
         String status = "文件上传状态1";
-        String basePath = "C:\\Upload\\demo1";
         try {
             // 获取上传文件的文件名
             String fileName = multipartFile.getOriginalFilename();
@@ -81,7 +83,6 @@ public class Upload1Controller {
     public String demo2(@RequestParam("file") MultipartFile multipartFile) {
         System.out.println("/*************************************************************/");
         String status = "文件上传状态2";
-        String basePath = "C:\\Upload\\demo2";
         try {
             // 文件白名单
             String[] extsList = new String[]{
@@ -155,15 +156,14 @@ public class Upload1Controller {
                         @RequestParam("path") String path) {
         System.out.println("/*************************************************************/");
         String status = "文件上传状态3";
-        String basePath = "C:\\Upload\\demo3";
 
         try {
             // 文件白名单
             List<String> extsList = Arrays.asList(
-                    ".jpg",
-                    ".png",
-                    ".doc",
-                    ".docx"
+                    "jpg",
+                    "png",
+                    "doc",
+                    "docx"
             );
 
             // 获取上传文件的文件名
@@ -178,9 +178,8 @@ public class Upload1Controller {
             String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
             System.out.println("上传文件后缀名：" + ext);
 
-            // 如果后缀名为null并且后缀名不在白名单里
-            // 使用"".equals可以避免此漏洞
-            if ("".equals(ext) && !extsList.contains(ext)) {
+            // 判断后缀是否为空，如果为空则不校验白名单
+            if (!extsList.contains(ext)) {
                 throw new Exception("文件名后缀不能为空或文件后缀名非法");
             }
 
@@ -222,7 +221,6 @@ public class Upload1Controller {
     public String demo4(@RequestParam("file") MultipartFile multipartFile) {
         System.out.println("/************************************************************/");
         String status = "文件上传状态4";
-        String basePath = "C:\\Upload\\demo4";
 
         try {
             // 文件黑名单
