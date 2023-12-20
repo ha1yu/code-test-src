@@ -49,8 +49,10 @@ public class PathTraversalOkController extends HttpServlet {
             //构造输出流
             String zipfilename = entry.getName();
             String filepath = "C:/Users/lb/Downloads/" + zipfilename;
-            //校验zip包中的文件
-            if (!checkFile(filepath) || !checkExt(filepath)){return;}
+            //校验zip包中的文件，由于解压存在写入文件问题，故需要对文件格式进行校验
+            if (!checkFile(filepath) || !checkExt(filepath)){
+                throw new Exception("文件非法！");
+            }
             File outfile = new File(filepath);
             FileOutputStream fos = new FileOutputStream(outfile);
             //将zip中的内容读出

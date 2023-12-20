@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/ssrf")
 public class SSRFController extends HttpServlet {
 
-    @RequestMapping({"/ssrf1"})
+    @RequestMapping({"/demo1"})
     public void ssrf1(String url, HttpServletResponse resp) throws Exception {
         URL u = new URL(url);
         URLConnection urlConnection = u.openConnection();
@@ -26,9 +27,9 @@ public class SSRFController extends HttpServlet {
         resp.getOutputStream().write(bytes);
     }
 
-    @RequestMapping({"/ssrf2"})
+    @RequestMapping({"/demo2"})
     public void ssrf2(String url, HttpServletResponse resp) throws Exception {
-        //http://127.0.0.1:8080/ssrf2?url=http://127.0.0.1:8080/download?filename=../../../../Windows/win.ini%26a=
+        //http://127.0.0.1:8080/ssrf/demo2?url=http://127.0.0.1:8080/download?filename=../../../../Windows/win.ini%26a=
         url = url + "/file/img/xx.jpg?key=123456";
         URL u = new URL(url);
         HttpURLConnection urlConnection = (HttpURLConnection)u.openConnection();
@@ -39,9 +40,9 @@ public class SSRFController extends HttpServlet {
         resp.getOutputStream().write(bytes);
     }
 
-    @RequestMapping({"/ssrf3"})
+    @RequestMapping({"/demo3"})
     public void ssrf3(String path, HttpServletResponse resp) throws Exception {
-        //http://127.0.0.1:8080/ssrf3?path=@127.0.0.1:8080/download?filename=../../../../../../Windows/win.ini
+        //http://127.0.0.1:8080/ssrf/demo3?path=@127.0.0.1:8080/download?filename=../../../../../../Windows/win.ini
         String url = "http://123.11.123.11" + path;
         URL u = new URL(url);
         URLConnection urlConnection = u.openConnection();

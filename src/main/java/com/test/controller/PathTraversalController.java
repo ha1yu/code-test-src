@@ -16,7 +16,7 @@ import java.util.zip.ZipInputStream;
 public class PathTraversalController extends HttpServlet{
     @RequestMapping("/download")
     public void download(String filename, HttpServletResponse resp) throws Exception {
-        //请求：http://127.0.0.1:8080/download?filename=../../../../Windows/win.ini
+        //请求：http://127.0.0.1:8080/readfile1/download?filename=../../../../Windows/win.ini
         ServletOutputStream outputStream = resp.getOutputStream();
 
         //读取文件
@@ -35,7 +35,7 @@ public class PathTraversalController extends HttpServlet{
 
     @RequestMapping("/download2")
     public void download2(String filepath ,String filename, HttpServletResponse resp) throws Exception {
-        //请求：http://127.0.0.1:8080/download2?filepath=../../../../Windows&filename=win.ini
+        //请求：http://127.0.0.1:8080/readfile1/download2?filepath=../../../../Windows&filename=win.ini
         ServletOutputStream outputStream = resp.getOutputStream();
 
         //对filename参数进行校验
@@ -61,7 +61,7 @@ public class PathTraversalController extends HttpServlet{
 
     @RequestMapping("/download3")
     public void download3(String filename, HttpServletResponse resp) throws Exception {
-        //请求：http://127.0.0.1:8080/download3?filename=..././..././..././..././..././Windows/win.ini
+        //请求：http://127.0.0.1:8080/readfile1/download3?filename=..././..././..././..././..././Windows/win.ini
         ServletOutputStream outputStream = resp.getOutputStream();
 
         //拼接路径
