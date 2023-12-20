@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.test.bean.Users;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper extends BaseMapper<Users> {
-    public Users selectUser(String username);
+    public List<Users> selectUser(String username);
 }

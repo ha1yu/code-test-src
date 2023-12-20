@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.test.bean.Users;
 import com.test.mapper.NewUserMapper;
 import com.test.mapper.UserMapper;
+import com.test.vo.SQLVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
@@ -26,9 +28,17 @@ public class SqlInjectController {
     @Autowired
     NewUserMapper newUserMapper;
 
+    @GetMapping("")
+    public String sqlIndex(Model model) {
+        model.addAttribute("mechoy", "mechoy");
+        System.out.println("被请求了");
+        return "sqlInject";
+    }
+
+
     @ResponseBody
     @RequestMapping("/jdbcSql")
-    public String jdbcSql(@RequestParam(name = "username", defaultValue = " ") String username) {
+    public SQLVo jdbcSql(@RequestParam(name = "username", defaultValue = " ") String username) {
         // Payload: 23'union select password from users where '1'='1
         String sql = "SELECT email FROM users WHERE username = '" + username + "'";
         ArrayList<String> emails = new ArrayList<>();
@@ -68,32 +78,58 @@ public class SqlInjectController {
                 }
             }
         }
-        return emails.toString();
+        return new SQLVo(sql, emails.toString());
     }
 
     @PostMapping("/mybatisSql")
     @ResponseBody
-    public String mybatisSql(@RequestParam(name = "username", defaultValue = "") String username) {
-        Users user = userMapper.selectUser(username);
-        return user.getEmail();
+    public SQLVo mybatisSql(@RequestParam(name = "username", defaultValue = "") String username) {
+        List<Users> users = userMapper.selectUser(username);
+
+
+        ArrayList<String> emails = new ArrayList<>();
+        for (int i = 0; i < users.size(); i++) {
+            emails.add(users.get(i).getEmail());
+        }
+        SQLVo sqlVo = new SQLVo();
+        sqlVo.setSql("SELECT id,username,password,email FROM users WHERE username = '" + username + "'");
+        sqlVo.setEmail(emails.toString());
+        return sqlVo;
     }
 
     @PostMapping("/mybatisPlusSql")
     @ResponseBody
-    public String mybatisPlusSql(@RequestParam(name = "username", defaultValue = "") String username) {
+    public SQLVo mybatisPlusSql(@RequestParam(name = "username", defaultValue = "") String username) {
         QueryWrapper<Users> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.apply("username=" + "'" + username + "'");
-        Users user = userMapper.selectOne(userQueryWrapper);
-        return user.getEmail();
+        userQueryWrapper.apply("username='" + username + "'");
+        List<Users> users = userMapper.selectList(userQueryWrapper);
+
+        ArrayList<String> emails = new ArrayList<>();
+        for (int i = 0; i < users.size(); i++) {
+            emails.add(users.get(i).getEmail());
+        }
+        SQLVo sqlVo = new SQLVo();
+        sqlVo.setSql("SELECT  id,username,password,email  FROM `users` WHERE (username='" + username + "')");
+        sqlVo.setEmail(emails.toString());
+
+        return sqlVo;
     }
 
     @PostMapping("/tkMapperSql")
     @ResponseBody
-    public String tkMapperSql(@RequestParam(name = "username", defaultValue = "") String username) {
+    public SQLVo tkMapperSql(@RequestParam(name = "username", defaultValue = "") String username) {
         Example example = new Example(Users.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andCondition("username=" + "'" + username + "'");
-        List<Users> fractions = newUserMapper.selectByExample(example);
-        return fractions.toString();
+
+        ArrayList<String> emails = new ArrayList<>();
+        List<Users> users = newUserMapper.selectByExample(example);
+        for (int i = 0; i < users.size(); i++) {
+            emails.add(users.get(i).getEmail());
+        }
+        SQLVo sqlVo = new SQLVo();
+        sqlVo.setSql("SELECT  id,username,password,email  FROM `users`  WHERE ( ( username='" + username + "' ) )");
+        sqlVo.setEmail(emails.toString());
+        return sqlVo;
     }
 }
