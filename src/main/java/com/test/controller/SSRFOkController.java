@@ -19,7 +19,7 @@ public class SSRFOkController {
     public void ssrf1(String url, HttpServletResponse resp) throws Exception {
         URL u = new URL(url);
         //url合法性校验
-        if(checkUrl(u)){return;}
+        if(!checkUrl(u)){throw new Exception("url参数不合法");}
         URLConnection urlConnection = u.openConnection();
         //获取内容输出前端
         InputStream inputStream = urlConnection.getInputStream();
