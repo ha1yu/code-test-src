@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/ssrf")
+@RequestMapping("/ssrf1")
 public class SSRFController extends HttpServlet {
 
     @RequestMapping({"/demo1"})
@@ -53,21 +53,5 @@ public class SSRFController extends HttpServlet {
         resp.getOutputStream().write(bytes);
     }
 
-    public boolean checkUrl(URL url) throws MalformedURLException {
-        String s1 = url.toString();
-        //判断是否为http、https
-        if (!Pattern.matches("^http?://.*/*$", s1)) {
-            return false;
-        } else {
-            String ip = "";
-            if (url.getPort() != -1) {
-                ip = url.getHost() + ":" + url.getPort();
-            } else {
-                ip = url.getHost();
-            }
-            //白名单校验ip端口
-            String[] s = new String[]{"192.168.100.100:8080", "172.16.100.100:8080", "baidu.com"};
-            return Arrays.asList(s).contains(ip);
-        }
-    }
+
 }
