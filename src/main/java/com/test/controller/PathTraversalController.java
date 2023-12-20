@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 @RestController
 public class PathTraversalController extends HttpServlet{
@@ -77,4 +79,48 @@ public class PathTraversalController extends HttpServlet{
         //输出
         outputStream.write(bytes);
     }
+
+    @RequestMapping("/unzip")
+    public void unzip(String zipfile) throws Exception {
+        File file = new File(zipfile);
+        ZipFile zf = new ZipFile(file);
+        ZipInputStream zis = new ZipInputStream(new FileInputStream(file));
+        ZipEntry entry;
+        //遍历zip中的文件
+        while((entry = zis.getNextEntry()) != null){
+            //构造输出流
+            String zipfilename = entry.getName();
+            File outfile = new File("C:/Users/lb/Downloads/" + zipfilename);
+            FileOutputStream fos = new FileOutputStream(outfile);
+            //将zip中的内容读出
+            InputStream inputStream = zf.getInputStream(entry);
+            byte[] bytes = new byte[inputStream.available()];
+            inputStream.read(bytes);
+            //写文件并关闭连接
+            fos.write(bytes);
+            fos.close();
+            inputStream.close();
+        }
+    }
+
+
+    @RequestMapping("/readImg")
+    public String readImg(String imgfile) throws Exception {
+        String path = "C:/Users/lb/Downloads/" + imgfile + ".jpg";
+        FileInputStream fis = new FileInputStream(new File(path));
+        byte[] bytes = new byte[fis.available()];
+        fis.read(bytes);
+        return new String(bytes);
+    }
+
+    //文件名校验，存在问题返回false
+    public boolean checkFile(String path) throws Exception {
+        path = path.replaceAll("\\p{C}", "");
+        if(path.contains("..")){
+            return false;
+        }
+        return true;
+    }
 }
+
+
