@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .text-area {
+            font-size: 18px;
+            width: 500px;
+            height: 80px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            display: block;
+        }
+
+        .submit-button {
+            position: relative;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+    </style>
+    <title>Textarea Example</title>
+    <script src="/scripts/axios.min.js"></script>
+    <script src="/scripts/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <div>
+        <div class="container">
+            <form action="/sql/jdbcSql" method="dialog" @submit="jdbcTest">
+                <label>案例1: JDBC SQLInject</label>
+                <textarea id="inputJDBC" class="text-area" placeholder="输入你名字，获取你的email..."></textarea>
+                <button class="submit-button">提交</button>
+            </form>
+
+        </div>
+        <div>
+            <p>{{jdbcSQL}}</p>
+            <p>{{jdbcEmail}}</p>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <div class="container">
+            <form action="/sql/mybatisSql" method="dialog" @submit="mybatisTest">
+                <label>案例2: MyBatis SQLInject</label>
+                <textarea id="inputMybatis" class="text-area" placeholder="输入你名字，获取你的email..."></textarea>
+                <button class="submit-button">提交</button>
+            </form>
+        </div>
+        <div>
+            <p>{{mybatisSQL}}</p>
+            <p>{{mybatisEmail}}</p>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <div class="container">
+            <form action="/sql/mybatisPlusSql" method="dialog" @submit="mybatisPlusTest">
+                <label>案例3: Mybatis-Plus SQLInject</label>
+                <textarea id="inputMybatisPlus" class="text-area" placeholder="输入你名字，获取你的email..."></textarea>
+                <button class="submit-button">提交</button>
+            </form>
+        </div>
+        <div>
+            <p>{{mybatisPlusSQL}}</p>
+            <p>{{mybatisPlusEmail}}</p>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <div class="container">
+            <form action="/sql/tkMapperSql" method="dialog" @submit="tkMapperTest">
+                <label>案例4: TK-Mapper SQLInject</label>
+                <textarea id="inputTkMapper" class="text-area" placeholder="输入你名字，获取你的email..."></textarea>
+                <button class="submit-button">提交</button>
+            </form>
+        </div>
+        <div>
+            <p>{{mapperSQL}}</p>
+            <p>{{mapperEmail}}</p>
+        </div>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            "jdbcSQL": "SQL语句: ",
+            "jdbcEmail": "Email: ",
+            "mybatisSQL": "SQL语句: ",
+            "mybatisEmail": "Email: ",
+            "mybatisPlusSQL": "SQL语句: ",
+            "mybatisPlusEmail": "Email: ",
+            "mapperSQL": "SQL语句: ",
+            "mapperEmail": "Email: ",
+        },
+        methods: {
+            jdbcTest: function () {
+                axios({
+                    method: "post",
+                    url: "/sql/jdbcSql",
+                    params: {
+                        username: document.getElementById("inputJDBC").value,
+                    }
+                    // 设置回调函数
+                }).then(response => {
+                    this.jdbcSQL = "SQL语句: " + response.data.sql;
+                    this.jdbcEmail = "Email: " + response.data.email;
+                }).catch(error => {
+                    // 响应状态码的是500，则执行该函数(回调函数)
+                    alert("服务器异常")
+                });
+            },
+            mybatisTest: function () {
+                axios({
+                    method: "post",
+                    url: "/sql/mybatisSql",
+                    params: {
+                        username: document.getElementById("inputMybatis").value,
+                    }
+                    // 设置回调函数
+                }).then(response => {
+                    this.mybatisSQL = "SQL语句: " + response.data.sql;
+                    this.mybatisEmail = "Email: " + response.data.email;
+                }).catch(error => {
+                    // 响应状态码的是500，则执行该函数(回调函数)
+                    alert("服务器异常")
+                });
+            },
+            mybatisPlusTest: function () {
+                axios({
+                    method: "post",
+                    url: "/sql/mybatisPlusSql",
+                    params: {
+                        username: document.getElementById("inputMybatisPlus").value,
+                    }
+                    // 设置回调函数
+                }).then(response => {
+                    this.mybatisPlusSQL = "SQL语句: " + response.data.sql;
+                    this.mybatisPlusEmail = "Email: " + response.data.email;
+                }).catch(error => {
+                    // 响应状态码的是500，则执行该函数(回调函数)
+                    alert("服务器异常")
+                });
+            },
+            tkMapperTest: function () {
+                axios({
+                    method: "post",
+                    url: "/sql/tkMapperSql",
+                    params: {
+                        username: document.getElementById("inputTkMapper").value,
+                    }
+                    // 设置回调函数
+                }).then(response => {
+                    this.mapperSQL = "SQL语句: " + response.data.sql;
+                    this.mapperEmail = "Email: " + response.data.email;
+                }).catch(error => {
+                    // 响应状态码的是500，则执行该函数(回调函数)
+                    alert("服务器异常")
+                });
+            },
+        }
+    })
+</script>
+</body>
+</html>

@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/sql")
-public class SqlInjectController {
+@RequestMapping("/sqlOk")
+public class SqlInjectOkController {
     @Autowired
     DataSource dataSource;
 
@@ -32,27 +32,29 @@ public class SqlInjectController {
     public String sqlIndex(Model model) {
         model.addAttribute("mechoy", "mechoy");
         System.out.println("被请求了");
-        return "sqlInject";
+        return "sqlInjectOk";
     }
 
 
     @ResponseBody
     @RequestMapping("/jdbcSql")
     public SQLVo jdbcSql(@RequestParam(name = "username", defaultValue = " ") String username) {
-        // Payload: 23'union select password from users where '1'='1
-        String sql = "SELECT email FROM users WHERE username = '" + username + "'";
+        System.out.println("1111");
+        String sql = "SELECT email FROM users WHERE username = ?";
         ArrayList<String> emails = new ArrayList<>();
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
             connection = dataSource.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String string = resultSet.getString(1);
                 emails.add(string);
             }
+            sql = preparedStatement.toString().substring(preparedStatement.toString().indexOf("SELECT"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -63,9 +65,9 @@ public class SqlInjectController {
                     e.printStackTrace();
                 }
             }
-            if (statement != null) {
+            if (preparedStatement != null) {
                 try {
-                    statement.close();
+                    preparedStatement.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -84,7 +86,7 @@ public class SqlInjectController {
     @PostMapping("/mybatisSql")
     @ResponseBody
     public SQLVo mybatisSql(@RequestParam(name = "username", defaultValue = "") String username) {
-        List<Users> users = userMapper.selectUser(username);
+        List<Users> users = userMapper.selectUserOk(username);
 
 
         ArrayList<String> emails = new ArrayList<>();
@@ -92,7 +94,7 @@ public class SqlInjectController {
             emails.add(users.get(i).getEmail());
         }
         SQLVo sqlVo = new SQLVo();
-        sqlVo.setSql("SELECT id,username,password,email FROM users WHERE username = '" + username + "'");
+        sqlVo.setSql("SELECT id,username,password,email FROM users WHERE username = '" + username.replace("'", "\\'") + "'");
         sqlVo.setEmail(emails.toString());
         return sqlVo;
     }
@@ -101,7 +103,7 @@ public class SqlInjectController {
     @ResponseBody
     public SQLVo mybatisPlusSql(@RequestParam(name = "username", defaultValue = "") String username) {
         QueryWrapper<Users> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.apply("username='" + username + "'");
+        userQueryWrapper.apply("username={0}", username);
         List<Users> users = userMapper.selectList(userQueryWrapper);
 
         ArrayList<String> emails = new ArrayList<>();
@@ -109,7 +111,7 @@ public class SqlInjectController {
             emails.add(users.get(i).getEmail());
         }
         SQLVo sqlVo = new SQLVo();
-        sqlVo.setSql("SELECT  id,username,password,email  FROM `users` WHERE (username='" + username + "')");
+        sqlVo.setSql("SELECT  id,username,password,email  FROM `users` WHERE (username='" + username.replace("'", "\\'") + "')");
         sqlVo.setEmail(emails.toString());
 
         return sqlVo;
@@ -120,7 +122,7 @@ public class SqlInjectController {
     public SQLVo tkMapperSql(@RequestParam(name = "username", defaultValue = "") String username) {
         Example example = new Example(Users.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andCondition("username=" + "'" + username + "'");
+        criteria.andCondition("username=", username);
 
         ArrayList<String> emails = new ArrayList<>();
         List<Users> users = newUserMapper.selectByExample(example);
@@ -128,7 +130,7 @@ public class SqlInjectController {
             emails.add(users.get(i).getEmail());
         }
         SQLVo sqlVo = new SQLVo();
-        sqlVo.setSql("SELECT  id,username,password,email  FROM `users`  WHERE ( ( username='" + username + "' ) )");
+        sqlVo.setSql("SELECT  id,username,password,email  FROM `users`  WHERE ( ( username='" + username.replace("'", "\\'") + "' ) )");
         sqlVo.setEmail(emails.toString());
         return sqlVo;
     }
