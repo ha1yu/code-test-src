@@ -12,4 +12,13 @@
         WHERE
         username = '${username}'
     </select>
+
+    <select id="selectUserOk" resultType="com.test.bean.Users">
+        SELECT
+        id,username,password,email
+        FROM
+        users
+        WHERE
+        username = #{username}
+    </select>
 </mapper>

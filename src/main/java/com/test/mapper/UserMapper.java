@@ -9,4 +9,6 @@ import java.util.List;
 @Mapper
 public interface UserMapper extends BaseMapper<Users> {
     public List<Users> selectUser(String username);
+
+    public List<Users> selectUserOk(String username);
 }
