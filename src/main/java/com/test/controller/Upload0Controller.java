@@ -86,12 +86,7 @@ public class Upload0Controller {
         String status = "文件上传状态2";
         try {
             // 文件白名单
-            String[] extsList = new String[]{
-                    ".jpg",
-                    ".png",
-                    ".doc",
-                    ".docx"
-            };
+            String[] extsList = new String[]{".jpg", ".png", ".doc", ".docx"};
 
             // 获取上传文件的文件名
             String fileName = multipartFile.getOriginalFilename();
@@ -108,7 +103,6 @@ public class Upload0Controller {
                     flag = true;
                 }
             }
-
             if (!flag) {
                 throw new Exception("非法文件后缀名");
             }
@@ -160,12 +154,7 @@ public class Upload0Controller {
 
         try {
             // 文件白名单
-            List<String> extsList = Arrays.asList(
-                    "jpg",
-                    "png",
-                    "doc",
-                    "docx"
-            );
+            List<String> extsList = Arrays.asList("jpg", "png", "doc", "docx");
 
             // 获取上传文件的文件名
             String fileName = multipartFile.getOriginalFilename();
