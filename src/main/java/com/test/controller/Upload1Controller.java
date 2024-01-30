@@ -36,7 +36,7 @@ public class Upload1Controller {
     @PostMapping("/demo1")
     @ResponseBody
     public String demo1(@RequestParam("file") MultipartFile multipartFile) {
-        System.out.println("/*************************************************************/");
+        System.out.println("/************************************************************/");
         String status = "文件上传状态1";
         try {
             // 获取上传文件的文件名
