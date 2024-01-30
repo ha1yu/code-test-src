@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.zip.ZipEntry;
@@ -30,7 +31,6 @@ public class PathTraversalController extends HttpServlet{
         //输出
         outputStream.write(bytes);
     }
-
 
 
     @RequestMapping("/download2")
