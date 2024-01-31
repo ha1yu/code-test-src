@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .text-area {
+            font-size: 18px;
+            width: 500px;
+            height: 80px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            display: block;
+        }
+
+        .submit-button {
+            position: relative;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+    </style>
+    <title>代码注入</title>
+    <script src="/scripts/axios.min.js"></script>
+    <script src="/scripts/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <div>
+        <div class="container">
+            <form action="/commandOk/demo1" method="dialog" @submit="jdbcTest">
+                <label>安全编码案例1</label>
+                <textarea style="height: 20px;" id="cmdtext" class="text-area" placeholder="请输入IP"></textarea>
+                <button class="submit-button">提交</button>
+            </form>
+        </div>
+        <div style="white-space: pre-wrap;">
+            <p>响应内容: {{stringValue}}</p>
+        </div>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            "stringValue": "",
+        },
+        methods: {
+            jdbcTest: function () {
+                axios({
+                    method: "post",
+                    url: "/commandOk/demo1",
+                    params: {
+                        cmd : document.getElementById("cmdtext").value
+                    }
+                    // 设置回调函数
+                }).then(response => {
+                    this.stringValue = response.data;
+                }).catch(error => {
+                    // 响应状态码的是500，则执行该函数(回调函数)
+                    alert("服务器异常")
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>
