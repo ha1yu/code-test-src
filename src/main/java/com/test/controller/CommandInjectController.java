@@ -37,7 +37,6 @@ public class CommandInjectController extends HttpServlet {
             throw new RuntimeException(e);
         }finally {
             inputStream.close();
-            outputStream.close();
         }
     }
 
