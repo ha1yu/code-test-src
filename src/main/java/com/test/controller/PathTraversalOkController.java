@@ -14,7 +14,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 @RestController
-@RequestMapping("/pathTraversalOk")
+@RequestMapping("/pathOk")
 public class PathTraversalOkController extends HttpServlet {
 
     @RequestMapping("/demo1")

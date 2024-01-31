@@ -1,6 +1,10 @@
 package com.test.controller;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,10 +15,16 @@ import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-@RestController
+@Controller
 @RequestMapping("/ssrfOk")
 public class SSRFOkController {
 
+    @GetMapping("")
+    public String sqlIndex(Model model) {
+        return "ssrfOk";
+    }
+
+    @ResponseBody
     @RequestMapping({"/demo1"})
     public void ssrf1(String url, HttpServletResponse resp) throws Exception {
         URL u = new URL(url);

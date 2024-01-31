@@ -1,6 +1,8 @@
 package com.test.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletOutputStream;
@@ -12,9 +14,15 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
-@RestController
-@RequestMapping("/pathTraversal")
+@Controller
+@RequestMapping("/path")
 public class PathTraversalController extends HttpServlet{
+
+    @RequestMapping("")
+    public String index(){
+        return "path";
+    }
+    @ResponseBody
     @RequestMapping("/download1")
     public void download(String filename, HttpServletResponse resp) throws Exception {
         //请求：http://127.0.0.1:8080/readfile1/download?filename=../../../../Windows/win.ini
@@ -30,9 +38,10 @@ public class PathTraversalController extends HttpServlet{
 
         //输出
         outputStream.write(bytes);
+        fileInputStream.close();
     }
 
-
+    @ResponseBody
     @RequestMapping("/download2")
     public void download2(String filepath ,String filename, HttpServletResponse resp) throws Exception {
         //请求：http://127.0.0.1:8080/readfile1/download2?filepath=../../../../Windows&filename=win.ini
@@ -58,7 +67,7 @@ public class PathTraversalController extends HttpServlet{
 
 
 
-
+    @ResponseBody
     @RequestMapping("/download3")
     public void download3(String filename, HttpServletResponse resp) throws Exception {
         //请求：http://127.0.0.1:8080/readfile1/download3?filename=..././..././..././..././..././Windows/win.ini
@@ -81,6 +90,7 @@ public class PathTraversalController extends HttpServlet{
         outputStream.write(bytes);
     }
 
+    @ResponseBody
     @RequestMapping("/unzip")
     public void unzip(String zipfile) throws Exception {
         File file = new File(zipfile);
@@ -104,7 +114,7 @@ public class PathTraversalController extends HttpServlet{
         }
     }
 
-
+    @ResponseBody
     @RequestMapping("/readImg")
     public String readImg(String imgfile) throws Exception {
         String path = "C:/Users/lb/Downloads/" + imgfile + ".jpg";
