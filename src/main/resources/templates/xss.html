@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="@{/}">
+<script src="/scripts/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: '#mytextarea',
+        toolbar: 'undo redo | styleselect | bold italic | link image | underline | link',
+        plugins: "link",
+        menubar: 'file edit'
+    });
+
+    tinymce.init({
+        selector: '#yourtextarea',
+        toolbar: 'undo redo | styleselect | bold italic | link image | underline | link',
+        plugins: "link",
+        menubar: 'file edit'
+    });
+</script>
+</head>
+
+<body>
+<div>
+    <h1>XSS测试</h1>
+    <form method="post" action="/xss/insert">
+        <textarea id="mytextarea" name="details">Hello, World!</textarea>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<hr>
+<div>
+    <h1>无XSS测试</h1>
+    <form method="post" action="/xss/insertOk">
+        <textarea id="yourtextarea" name="details">Hello, World!</textarea>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+</body>
+</html>
