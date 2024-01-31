@@ -12,14 +12,17 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("/ssrf2")
+@RequestMapping("/ssrfOk")
 public class SSRFOkController {
 
     @RequestMapping({"/demo1"})
     public void ssrf1(String url, HttpServletResponse resp) throws Exception {
         URL u = new URL(url);
         //url合法性校验
-        if(!checkUrl(u)){throw new Exception("url参数不合法");}
+        if(!checkUrl(u)){
+            resp.getOutputStream().write("非法URL".getBytes("utf-8"));
+            return;
+        }
         URLConnection urlConnection = u.openConnection();
         //获取内容输出前端
         InputStream inputStream = urlConnection.getInputStream();

@@ -51,7 +51,7 @@ public class UploadOkController {
             //校验文件及路径
             String file = basePath + File.separator + fileName;
             if (!checkFile(file)){
-                throw new Exception("文件非法！");
+                return "非法文件！";
             }
 
             File saveFile = new File(file);

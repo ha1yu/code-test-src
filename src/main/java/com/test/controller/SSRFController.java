@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/ssrf1")
+@RequestMapping("/ssrf")
 public class SSRFController extends HttpServlet {
 
     @RequestMapping({"/demo1"})
