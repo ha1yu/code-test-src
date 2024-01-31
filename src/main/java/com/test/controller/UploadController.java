@@ -21,6 +21,12 @@ public class UploadController {
     private String basePath = "C:/Users/lb/Downloads/";
 
 
+    @RequestMapping("")
+    public String index(){
+        return "upload";
+    }
+
+
     /**
      * 错误编码实例1
      * <p>
