@@ -15,8 +15,8 @@ import java.util.List;
  * 文件上传错误编码案例
  */
 @Controller
-@RequestMapping("/upload0")
-public class Upload0Controller {
+@RequestMapping("/upload")
+public class UploadController {
 
     private String basePath = "C:/Users/lb/Downloads/";
 

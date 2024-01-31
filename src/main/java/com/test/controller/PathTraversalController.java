@@ -13,9 +13,9 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 @RestController
-@RequestMapping("/readfile1")
+@RequestMapping("/pathTraversal")
 public class PathTraversalController extends HttpServlet{
-    @RequestMapping("/download")
+    @RequestMapping("/download1")
     public void download(String filename, HttpServletResponse resp) throws Exception {
         //请求：http://127.0.0.1:8080/readfile1/download?filename=../../../../Windows/win.ini
         ServletOutputStream outputStream = resp.getOutputStream();
@@ -113,8 +113,6 @@ public class PathTraversalController extends HttpServlet{
         fis.read(bytes);
         return new String(bytes);
     }
-
-
 }
 
 
