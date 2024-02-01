@@ -34,7 +34,7 @@
         }
 
     </style>
-    <title>目录穿越</title>
+    <title>目录穿越安全编码案例</title>
     <script src="/scripts/axios.min.js"></script>
     <script src="/scripts/vue.js"></script>
 </head>
@@ -43,8 +43,8 @@
 <div id="app">
     <div>
         <div class="container">
-            <form action="/path/download1" method="dialog" @submit="jdbcTest">
-                <label>案例1</label>
+            <form action="/pathOk/demo1" method="dialog" @submit="jdbcTest">
+                <label>安全编码案例1</label>
                 <textarea style="height: 20px;" id="cmdtext" class="text-area" placeholder="请输入文件名"></textarea>
                 <button class="submit-button">提交</button>
             </form>
@@ -64,96 +64,9 @@
             jdbcTest: function () {
                 axios({
                     method: "post",
-                    url: "/path/download1",
+                    url: "/pathOk/demo1",
                     params: {
                         filename : document.getElementById("cmdtext").value
-                    }
-                    // 设置回调函数
-                }).then(response => {
-                    this.stringValue = response.data;
-                }).catch(error => {
-                    // 响应状态码的是500，则执行该函数(回调函数)
-                    alert("服务器异常")
-                });
-            }
-        }
-    })
-</script>
-<br>
-<hr>
-<br>
-<div id="app2">
-    <div>
-        <div class="container">
-            <form action="/path/download2" method="dialog" @submit="jdbcTest">
-                <label>案例2</label>
-                <textarea style="height: 20px;" id="cmdtext2" class="text-area" placeholder="请输入文件名"></textarea>
-                <textarea style="height: 20px;" id="filepathtext" class="text-area" placeholder="请输入文件路径"></textarea>
-                <button class="submit-button">提交</button>
-            </form>
-        </div>
-        <div style="white-space: pre-wrap;">
-            <p>响应内容: {{stringValue}}</p>
-        </div>
-    </div>
-</div>
-<script>
-    new Vue({
-        el: "#app2",
-        data: {
-            "stringValue": "",
-            "filepath":""
-        },
-        methods: {
-            jdbcTest: function () {
-                axios({
-                    method: "post",
-                    url: "/path/download2",
-                    params: {
-                        filename : document.getElementById("cmdtext2").value,
-                        filepath : document.getElementById("filepathtext").value
-                    }
-                    // 设置回调函数
-                }).then(response => {
-                    this.stringValue = response.data;
-                }).catch(error => {
-                    // 响应状态码的是500，则执行该函数(回调函数)
-                    alert("服务器异常")
-                });
-            }
-        }
-    })
-</script>
-<br>
-<hr>
-<br>
-<div id="app3">
-    <div>
-        <div class="container">
-            <form action="/path/download3" method="dialog" @submit="jdbcTest">
-                <label>案例3</label>
-                <textarea style="height: 20px;" id="cmdtext3" class="text-area" placeholder="请输入文件名"></textarea>
-                <button class="submit-button">提交</button>
-            </form>
-        </div>
-        <div style="white-space: pre-wrap;">
-            <p>响应内容: {{stringValue}}</p>
-        </div>
-    </div>
-</div>
-<script>
-    new Vue({
-        el: "#app3",
-        data: {
-            "stringValue": ""
-        },
-        methods: {
-            jdbcTest: function () {
-                axios({
-                    method: "post",
-                    url: "/path/download3",
-                    params: {
-                        filename : document.getElementById("cmdtext3").value
                     }
                     // 设置回调函数
                 }).then(response => {
@@ -172,7 +85,7 @@
 <div id="app4">
     <div>
         <div class="container">
-            <form action="/path/download3" method="dialog" @submit="jdbcTest">
+            <form action="/pathOk/unzipdemo" method="dialog" @submit="jdbcTest">
                 <label>解压案例</label>
                 <textarea style="height: 20px;" id="cmdtext4" class="text-area" placeholder="输入解压的zip文件名"></textarea>
                 <button class="submit-button">提交</button>
@@ -193,7 +106,7 @@
             jdbcTest: function () {
                 axios({
                     method: "post",
-                    url: "/path/unzip",
+                    url: "/pathOk/unzipdemo",
                     params: {
                         zipfile : document.getElementById("cmdtext4").value
                     }

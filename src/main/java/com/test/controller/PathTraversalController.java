@@ -30,8 +30,8 @@ public class PathTraversalController extends HttpServlet{
 
         //读取文件
         String filepath = "C:/Users/lb/Downloads/"+ filename;
-        outputStream.write(("filepath：" + filepath + "\r").getBytes());
-        outputStream.write("---------------------------------------------------\r".getBytes());
+        outputStream.write(("\r\n拼接后路径：" + filepath +"\r\n").getBytes());
+        outputStream.write("---------------------------------------------------\r\n".getBytes());
         FileInputStream fileInputStream = new FileInputStream(new File(filepath));
         byte[] bytes = new byte[fileInputStream.available()];
         fileInputStream.read(bytes);
@@ -55,8 +55,8 @@ public class PathTraversalController extends HttpServlet{
 
         //读取文件
         String file = "C:/Users/lb/Downloads/"+ filepath + File.separator + filename;
-        outputStream.write(("filepath：" + file + "\r").getBytes());
-        outputStream.write("---------------------------------------------------\r".getBytes());
+        outputStream.write(("\r\n拼接后路径：" + file + "\r\n").getBytes());
+        outputStream.write("---------------------------------------------------\r\n".getBytes());
         FileInputStream fileInputStream = new FileInputStream(new File(file));
         byte[] bytes = new byte[fileInputStream.available()];
         fileInputStream.read(bytes);
@@ -80,8 +80,8 @@ public class PathTraversalController extends HttpServlet{
         file = file.replace("../","").replace("..\\","");
 
         //读取文件
-        outputStream.write(("filepath：" + file +"\r").getBytes());
-        outputStream.write("---------------------------------------------------\r".getBytes());
+        outputStream.write(("\r\n拼接后路径：" + file +"\r\n").getBytes());
+        outputStream.write("---------------------------------------------------\r\n".getBytes());
         FileInputStream fileInputStream = new FileInputStream(new File(file));
         byte[] bytes = new byte[fileInputStream.available()];
         fileInputStream.read(bytes);
@@ -92,7 +92,7 @@ public class PathTraversalController extends HttpServlet{
 
     @ResponseBody
     @RequestMapping("/unzip")
-    public void unzip(String zipfile) throws Exception {
+    public void unzip(String zipfile,HttpServletResponse response) throws Exception {
         File file = new File(zipfile);
         ZipFile zf = new ZipFile(file);
         ZipInputStream zis = new ZipInputStream(new FileInputStream(file));
@@ -108,6 +108,7 @@ public class PathTraversalController extends HttpServlet{
             byte[] bytes = new byte[inputStream.available()];
             inputStream.read(bytes);
             //写文件并关闭连接
+            response.getOutputStream().write(("解压路径：" + outfile.getPath()).getBytes("utf-8"));
             fos.write(bytes);
             fos.close();
             inputStream.close();

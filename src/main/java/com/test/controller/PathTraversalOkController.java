@@ -1,6 +1,8 @@
 package com.test.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletOutputStream;
@@ -13,16 +15,23 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
-@RestController
+@Controller
 @RequestMapping("/pathOk")
 public class PathTraversalOkController extends HttpServlet {
 
+    @RequestMapping("")
+    public String index(){
+        return "pathOk";
+    }
+
+    @ResponseBody
     @RequestMapping("/demo1")
     public void demo1(String filename, HttpServletResponse resp) throws Exception {
         ServletOutputStream outputStream = resp.getOutputStream();
         //拼接校验路径
         String filepath = "C:/Users/lb/Downloads/"+ filename;
         if(!checkFile(filepath)){
+            outputStream.write("非法文件名!".getBytes("utf-8"));
             return;
         }
 
@@ -38,8 +47,9 @@ public class PathTraversalOkController extends HttpServlet {
     }
 
 
+    @ResponseBody
     @RequestMapping("/unzipdemo")
-    public void unzip(String zipfile) throws Exception {
+    public void unzip(String zipfile ,HttpServletResponse response) throws Exception {
         File file = new File(zipfile);
         ZipFile zf = new ZipFile(file);
         ZipInputStream zis = new ZipInputStream(new FileInputStream(file));
@@ -51,7 +61,8 @@ public class PathTraversalOkController extends HttpServlet {
             String filepath = "C:/Users/lb/Downloads/" + zipfilename;
             //校验zip包中的文件，由于解压存在写入文件问题，故需要对文件格式进行校验
             if (!checkFile(filepath) || !checkExt(filepath)){
-                throw new Exception("文件非法！");
+                response.getOutputStream().write("解压失败，zip文件存在问题！".getBytes("utf-8"));
+                return;
             }
             File outfile = new File(filepath);
             FileOutputStream fos = new FileOutputStream(outfile);
